@@ -1,16 +1,15 @@
 package Controller;
 
-import Model.Brick;
 import Model.Model;
 import View.View;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
-public class Controller{
+public class Controller {
 
+    private boolean paused;
     public Model model;
-    View view;
-    private int lastFpsTime,fps;
+    public View view;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -19,49 +18,32 @@ public class Controller{
         view.controller = this;
     }
 
-    public void sendKeys(){
+    public void sendKeys() {
+        if (view.getKeys()[3]) {
+            paused = true;
+        } else if (!view.getKeys()[3]) {
+            paused = false;
+        }
         model.update(view.getKeys());
     }
 
-    public ArrayList<Brick> getMap(){
-        return model.getMap();
-    }
-
-    public int[] getPlayerData(){
+    public int[] getPlayerData() {
         return model.getData();
     }
 
     public Thread gameLoop = new Thread() {
-        public void run ()
-        {
-            long lastLoopTime = System.nanoTime();
-            final int TARGET_FPS = 60;
-            final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
-            while (true) {
-                long now = System.nanoTime();
-                long updateLength = now - lastLoopTime;
-                lastLoopTime = now;
-
-                lastFpsTime += updateLength;
-                fps++;
-
-                if (lastFpsTime >= 1000000000) {
-                    System.out.println("(FPS: " + fps + ")");
-                    lastFpsTime = 0;
-                    fps = 0;
-                }
+        public void run() {
+            Timer t = new Timer(13, event -> {
                 sendKeys();
-                model.move();
-                view.render();
-
-                try {
-                    Thread.sleep((lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (!paused) {
+                    model.move();
                 }
-            }
+                view.render();
+            });
+            t.start();
+
         }
     };
-
 }
+

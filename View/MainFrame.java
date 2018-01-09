@@ -7,10 +7,10 @@ public class MainFrame extends JFrame{
 
     public MainFrame() {
         super("Gra");
-        setSize(640, 480);
+        setSize(1152, 864);
         setResizable(false);
         setFocusable(true);
         getContentPane().setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

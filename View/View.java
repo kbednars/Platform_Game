@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,7 +14,7 @@ public class View {
     private boolean [] keys;
 
     public View() {
-        keys = new boolean[3];
+        keys = new boolean[4];
         mainFrame = new MainFrame();
         mainBoard = new MainBoard();
         mainFrame.getContentPane().setBackground(Color.GRAY);
@@ -25,8 +26,9 @@ public class View {
     }
 
     public void render() {
-        getPlayerData();
         getInfo();
+        getPlayerData();
+        mainBoard.paused = keys[3];
         mainFrame.repaint();
         mainBoard.repaint();
     }
@@ -58,6 +60,9 @@ public class View {
             }
             if (keyValue == KeyEvent.VK_SPACE){
                 keys[2] = true;
+            }
+            if (keyValue == KeyEvent.VK_P){
+                keys[3] = !keys[3];
             }
         }else{
             if (keyValue == KeyEvent.VK_A) {

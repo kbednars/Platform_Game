@@ -2,34 +2,60 @@ package Model;
 
 class Player extends GameObject{
 
+    private int health;
+    private int protection;
+    private int points;
+    private boolean colXop, colYop;
+
     Player(){
         x = 0;
-        y = 0;
+        y = 740;
         dy = 0;
-        data = new int[5];
         jump = true;
-        grav = 0.1;
+        grav = 0.25;
         index = 0;
-        speed = 2;
+        speed = 3;
         width = 20;
-        length = 20;
+        height = 20;
+        health = 3;
+        protection = 0;
+        points = 0;
+        data = new int[8];
+    }
+
+    int[] getData() {
+        data[0] = x;
+        data[1] = y;
+        data[2] = width;
+        data[3] = height;
+        data[4] = id;
+        data[5] = health;
+        data[6] = protection;
+        data[7] = points;
+        return data;
     }
 
     void move() {
+        if(protection > 0){
+            protection -= 1;
+        }else{
+            protection = 0;
+        }
         gravity();
         if(!collisionX){
             x += dx*speed;
-            if(x > (511 - width) ){
-                x = 511 - width;
+            if(x > (1024 - width) ){
+                x = 1024 - width;
             }else if(x < 0){
                 x = 0;
             }
         }
 
         if(!collisionY){
+            setJump();
             y += dy;
-            if(y > (384 - length) ){
-                y = 384 - length;
+            if(y > (768 - height) ){
+                y = 768 - height;
             }else if(y < 0){
                 y = 0;
             }
@@ -48,22 +74,33 @@ class Player extends GameObject{
 
         if (keys[2]){
             if(!jump){
-                jump = true;
-                ground = false;
-                dy = -4;
+                setJump();
+                dy = -6;
             }
         }
     }
 
-    void collision(boolean X, boolean Y){
-        if(ground) {
-            collisionX = X;
-            collisionY = Y;
-        }
-        else{
-            collisionX = false;
-            collisionY = false;
+    void setHealth() {
+        if(colXop && protection == 0){
+            this.health -= 1;
+            protection = 180;
         }
     }
 
+    void setPoints(){
+        if(colYop && protection == 0){
+            points +=100;
+        }
+    }
+
+    int getProtection() {
+        return protection;
+    }
+
+    void setOppCollision(boolean colX, boolean colY){
+        colXop = colX;
+        setHealth();
+        colYop = colY;
+        setPoints();
+    }
 }
