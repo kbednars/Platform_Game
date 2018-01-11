@@ -5,7 +5,6 @@ public class GameBoard {
 
     Model model;
     Maps map;
-    boolean isVisible;
 
     public GameBoard(Model model) {
         this.model = model;

@@ -2,7 +2,6 @@ package View;
 
 import Controller.Controller;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,9 +11,10 @@ public class View {
     private MainFrame mainFrame;
     private MainBoard mainBoard;
     private boolean [] keys;
+    boolean mapChanged;
 
     public View() {
-        keys = new boolean[4];
+        keys = new boolean[6];
         mainFrame = new MainFrame();
         mainBoard = new MainBoard();
         mainFrame.getContentPane().setBackground(Color.GRAY);
@@ -26,8 +26,24 @@ public class View {
     }
 
     public void render() {
-        getInfo();
-        getPlayerData();
+        mapChanged = controller.model.isMapChanged();
+        if(controller.isMenu()){
+            mainBoard.gameState = 1;
+        }
+
+        if(controller.isGame()){
+            mainBoard.gameState = 2;
+            getInfo();
+            getPlayerData();
+        }
+
+        if(controller.isEndGame()){
+            mainBoard.gameState = 3;
+        }
+
+        if(controller.isPlayerLose()){
+            mainBoard.gameState = 4;
+        }
         mainBoard.paused = keys[3];
         mainFrame.repaint();
         mainBoard.repaint();
@@ -64,6 +80,12 @@ public class View {
             if (keyValue == KeyEvent.VK_P){
                 keys[3] = !keys[3];
             }
+            if (keyValue == KeyEvent.VK_ENTER){
+                keys[4] = true;
+            }
+            if (keyValue == KeyEvent.VK_SHIFT){
+                keys[5] = true;
+            }
         }else{
             if (keyValue == KeyEvent.VK_A) {
                 keys[0] = false;
@@ -74,6 +96,12 @@ public class View {
             if (keyValue == KeyEvent.VK_SPACE){
                 keys[2] = false;
             }
+            if (keyValue == KeyEvent.VK_ENTER){
+                keys[4] = false;
+            }
+            if (keyValue == KeyEvent.VK_SHIFT){
+                keys[5] = false;
+            }
         }
     }
 
@@ -82,7 +110,10 @@ public class View {
     }
 
     public void getInfo() {
-        mainBoard.getInfo(controller.model.getInfo());
+        if(mapChanged){
+            mainBoard.getInfoMap(controller.model.getInfoMap());
+        }
+        mainBoard.getInfoObjects(controller.model.getInfoObjects());
     }
 
     public void getPlayerData(){

@@ -8,24 +8,27 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class MainBoard extends JPanel{
-    private BufferedImage imagePlayer,  imageEnemy, imageBrick, imageBack, imageHealth, imageDoor;
+public class MainBoard extends JPanel {
     boolean paused;
-    int [] playerInfo;
-    LinkedList<int []> info;
+    int[] playerInfo;
+    int gameState;
+    LinkedList<int[]> infoMap;
+    LinkedList<int[]> infoObjects;
+    private BufferedImage imagePlayer, imageEnemy, imageBrick, imageBack, imageHealth, imageDoor;
+
 
     public MainBoard() {
-        playerInfo = new int [8];
-        setBounds(55, 30,1024,768);
+        playerInfo = new int[8];
+        setBounds(0, 0, 1024, 768);
         repaint();
-        try{
+        try {
             imagePlayer = ImageIO.read(getClass().getResourceAsStream("/alienBlue_front.png"));
             imageEnemy = ImageIO.read(getClass().getResourceAsStream("/slimeBlock.png"));
             imageBrick = ImageIO.read(getClass().getResourceAsStream("/grassMid.png"));
             imageBack = ImageIO.read(getClass().getResourceAsStream("/blue_land.png"));
             imageHealth = ImageIO.read(getClass().getResourceAsStream("/hudHeart_full.png"));
             imageDoor = ImageIO.read(getClass().getResourceAsStream("/doorOpen_mid.png"));
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -40,35 +43,64 @@ public class MainBoard extends JPanel{
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(imageBack,null,0,0);
-        if(info!=null){
-            for(int i = 0; i < info.size(); i++) {
-                if(info.get(i)[4]==1) {
-                    g2d.drawImage(imageBrick, info.get(i)[0], info.get(i)[1], info.get(i)[2], info.get(i)[3],null);
-                }
-                else if(info.get(i)[4]==2){
-                    g2d.drawImage(imageEnemy, info.get(i)[0], info.get(i)[1], info.get(i)[2], info.get(i)[3],null);
-                }
-                else if(info.get(i)[4]==3){
-                    g2d.drawImage(imageDoor, info.get(i)[0], info.get(i)[1], info.get(i)[2], info.get(i)[3],null);
+        g2d.drawImage(imageBack, null, 0, 0);
+        if(gameState == 1){
+            g2d.setPaint(Color.BLUE);
+            Font stringMenu = new Font("menu", Font.PLAIN, 40);
+            g2d.setFont(stringMenu);
+            g2d.drawString("Press ENTER to start", 320, 400);
+        }
+        if (gameState == 2) {
+            if (infoMap != null) {
+                for (int i = 0; i < infoMap.size(); i++) {
+                    if (infoMap.get(i)[4] == 1) {
+                        g2d.drawImage(imageBrick, infoMap.get(i)[0], infoMap.get(i)[1], infoMap.get(i)[2], infoMap.get(i)[3], null);
+                    } else if (infoMap.get(i)[4] == 3) {
+                        g2d.drawImage(imageDoor, infoMap.get(i)[0], infoMap.get(i)[1], infoMap.get(i)[2], infoMap.get(i)[3], null);
+                    }
                 }
             }
+            if (infoObjects != null) {
+                for (int i = 0; i < infoObjects.size(); i++) {
+                    g2d.drawImage(imageEnemy, infoObjects.get(i)[0], infoObjects.get(i)[1], infoObjects.get(i)[2], infoObjects.get(i)[3], null);
+                }
+            }
+            if ((180 > playerInfo[6] && 165 < playerInfo[6]) || ((150 > playerInfo[6]) && 135 < playerInfo[6]) || ((120 > playerInfo[6]) && 105 < playerInfo[6]) || (90 > playerInfo[6] && 75 < playerInfo[6]) || (60 > playerInfo[6] && 45 < playerInfo[6]) || (30 > playerInfo[6] && 15 < playerInfo[6]) || playerInfo[6] == 0) {
+                g2d.drawImage(imagePlayer, playerInfo[0], playerInfo[1], playerInfo[2], playerInfo[3], null);
+            }
+            for (int i = 0; i < playerInfo[5]; i++) {
+                g2d.drawImage(imageHealth, 5 + (i * 25), 5, 30, 30, null);
+            }
+            if (paused) {
+                g2d.setPaint(Color.RED);
+                Font stringPause = new Font("PAUSED", Font.ROMAN_BASELINE, 40);
+                g2d.setFont(stringPause);
+                g2d.drawString("PAUSED", 400, 300);
+            }
         }
-        if((180>playerInfo[6] && 165<playerInfo[6]) || ((150>playerInfo[6]) && 135<playerInfo[6]) ||((120>playerInfo[6]) && 105< playerInfo[6]) || (90>playerInfo[6] && 75<playerInfo[6]) || (60>playerInfo[6] && 45<playerInfo[6]) || (30>playerInfo[6] && 15<playerInfo[6]) ||playerInfo[6] == 0){
-            g2d.drawImage(imagePlayer, playerInfo[0],playerInfo[1],playerInfo[2],playerInfo[3], null);
+
+        if(gameState == 3){
+            g2d.setPaint(Color.BLUE);
+            Font stringMenu = new Font("end", Font.PLAIN, 40);
+            g2d.setFont(stringMenu);
+            g2d.drawString("You win", 400, 350);
+            g2d.drawString("Press SHIFT", 340, 400);
         }
-        for(int i = 0; i<playerInfo[5]; i++){
-                    g2d.drawImage(imageHealth, 5+(i*25),5,30,30, null);
-        }
-        if(paused){
+
+        if(gameState == 4){
             g2d.setPaint(Color.RED);
-            Font stringPause = new Font("PAUSED", Font.ROMAN_BASELINE,40);
-            g2d.setFont(stringPause);
-            g2d.drawString("PAUSED",450,300);
+            Font stringMenu = new Font("lose", Font.PLAIN, 40);
+            g2d.setFont(stringMenu);
+            g2d.drawString("You Losed", 400, 350);
+            g2d.drawString("Press SHIFT to try again", 300, 400);
         }
     }
 
-    public void getInfo(LinkedList<int []>objInfo){
-        info = objInfo;
+    public void getInfoMap(LinkedList<int[]> mapInfo) {
+        infoMap = mapInfo;
+    }
+
+    public void getInfoObjects(LinkedList<int[]> objectsInfo) {
+        infoObjects = objectsInfo;
     }
 }

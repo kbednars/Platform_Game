@@ -7,7 +7,7 @@ public class MainFrame extends JFrame{
 
     public MainFrame() {
         super("Gra");
-        setSize(1152, 864);
+        setSize(1040, 808);
         setResizable(false);
         setFocusable(true);
         getContentPane().setLayout(new BorderLayout());

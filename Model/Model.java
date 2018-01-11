@@ -9,17 +9,16 @@ public class Model {
     private GameBoard board;
     private Player player;
     private int mapNumber;
+    private boolean mapChanged;
 
     private LinkedList <Door> doors = new LinkedList<>();
     private LinkedList <Brick> bricks = new LinkedList<>();
     private LinkedList <Opponent> opponents = new LinkedList<>();
-    LinkedList <int []> info = new LinkedList<>();
+    LinkedList <int []> infoMap = new LinkedList<>();
+    LinkedList <int []> infoObjects = new LinkedList<>();
 
     public Model() {
         board = new GameBoard(this);
-        mapNumber = 1;
-        board.chooseMap(mapNumber);
-        player = new Player();
     }
 
     /** Metoda do aktualizowania pozycji
@@ -27,7 +26,24 @@ public class Model {
      * @param keys zmiana na osi x
      */
     public void update(boolean [] keys) {
+        if(player.getHealth() == 0){
+            controller.setPlayerLose(true);
+            controller.setGame(false);
+        }
         player.setChanges(keys);
+    }
+
+    public void initGame(){
+        mapNumber = 1;
+        board.chooseMap(mapNumber);
+        player = new Player();
+        mapChanged = true;
+    }
+
+    public void endGame(){
+        removeBricks();
+        removeOpponents();
+        removeDoors();
     }
 
     public void move(){
@@ -44,7 +60,6 @@ public class Model {
     public int[] getData(){
         return player.getData();
     }
-
 
     void checkCollision(int dx, int dy, GameObject object){
         boolean colX = false, colY = false;
@@ -116,13 +131,16 @@ public class Model {
     void checkDoors(int dx, Player pla){
         for(int i = 0; i < doors.size(); i++){
             if(pla.getRec(0,dx + 15).intersects(doors.get(i).x,doors.get(i).y,doors.get(i).width, doors.get(i).height)){
-                player.setX(0);
-                player.setY(721);
+                player.respawn();
+                if(++mapNumber == 2){
+                    controller.setGame(false);
+                    controller.setEndGame(true);
+                    break;
+                }
                 changeMap();
                 break;
             }
         }
-
     }
 
     public void addBrick(Brick obj){
@@ -155,19 +173,30 @@ public class Model {
         removeDoors();
         removeOpponents();
         board.chooseMap(mapNumber);
+        mapChanged = true;
     }
 
-    public LinkedList<int[]> getInfo(){
-        info.clear();
+    public LinkedList<int[]> getInfoMap(){
+        infoMap.clear();
         for(int i = 0; i < bricks.size(); i++){
-            info.add(bricks.get(i).getData());
-        }
-        for(int i = 0; i < opponents.size(); i++){
-            info.add(opponents.get(i).getData());
+            infoMap.add(bricks.get(i).getData());
         }
         for(int i = 0; i < doors.size(); i++){
-            info.add(doors.get(i).getData());
+            infoMap.add(doors.get(i).getData());
         }
-        return info;
+        mapChanged = false;
+        return infoMap;
+    }
+
+    public LinkedList<int[]> getInfoObjects() {
+        infoObjects.clear();
+        for(int i = 0; i < opponents.size(); i++){
+            infoObjects.add(opponents.get(i).getData());
+        }
+        return infoObjects;
+    }
+
+    public boolean isMapChanged() {
+        return mapChanged;
     }
 }

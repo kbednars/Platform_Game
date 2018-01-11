@@ -80,16 +80,19 @@ class Player extends GameObject{
         }
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    void respawn(){
+        setX(0);
+        setY(721);
+    }
+
     void setHealth() {
         if(colXop && protection == 0){
             this.health -= 1;
             protection = 180;
-        }
-    }
-
-    void setPoints(){
-        if(colYop && protection == 0){
-            points +=100;
         }
     }
 
@@ -101,6 +104,5 @@ class Player extends GameObject{
         colXop = colX;
         setHealth();
         colYop = colY;
-        setPoints();
     }
 }

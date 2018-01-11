@@ -7,16 +7,11 @@ import Model.Model;
 import java.awt.*;
 
 public class Game{
-
     private View view;
     private Controller controller;
     private Model model;
 
     public Game() {
-        initUI();
-    }
-
-    private void initUI() {
         model = new Model();
         view = new View();
         controller = new Controller(model,view);
