@@ -3,8 +3,6 @@ package Controller;
 import Model.Model;
 import View.View;
 
-import java.io.IOException;
-
 public class Controller {
     public Model model;
     public View view;
@@ -22,23 +20,6 @@ public class Controller {
     }
 
     public void sendKeys() {
-        if(view.getKeys()[4] && menu){
-            game = true;
-            menu = false;
-            model.initGame();
-        }
-        else if(view.getKeys()[5] && endGame){
-            menu = true;
-            endGame = false;
-            model.endGame();
-        }
-        else if(view.getKeys()[5] && playerLose){
-            model.endGame();
-            model.initGame();
-            playerLose = false;
-            game = true;
-        }
-
         if (view.getKeys()[3]) {
             paused = true;
         } else if (!view.getKeys()[3]) {
@@ -92,20 +73,17 @@ public class Controller {
                 }
             }
         }
-        /*
-            Timer t = new Timer(15, event -> {
-                sendKeys();
-                if (!paused) {
-                    model.move();
-                }
-                view.render();
-            });
-            t.start();
-*/
-        };
+    };
 
     public boolean isMenu() {
         return menu;
+    }
+
+    public void setMenu(boolean menu) {
+        this.menu = menu;
+        if(menu){
+
+        }
     }
 
     public boolean isGame() {
@@ -114,6 +92,13 @@ public class Controller {
 
     public void setGame(boolean game) {
         this.game = game;
+        if(game){
+            menu = false;
+            model.initGame();
+        }
+        else {
+            model.endGame();
+        }
     }
 
     public boolean isEndGame() {
@@ -122,6 +107,9 @@ public class Controller {
 
     public void setEndGame(boolean endGame) {
         this.endGame = endGame;
+        if(!endGame){
+            menu = true;
+        }
     }
 
     public boolean isPlayerLose() {

@@ -16,7 +16,7 @@ class Player extends GameObject{
         index = 0;
         speed = 3;
         width = 20;
-        height = 20;
+        height = 19;
         health = 3;
         protection = 0;
         points = 0;

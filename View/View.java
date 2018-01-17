@@ -10,16 +10,20 @@ public class View {
     public Controller controller;
     private MainFrame mainFrame;
     private MainBoard mainBoard;
+    private Menu menu;
     private boolean [] keys;
     boolean mapChanged;
 
     public View() {
-        keys = new boolean[6];
+        keys = new boolean[4];
         mainFrame = new MainFrame();
         mainBoard = new MainBoard();
+        menu = new Menu(this);
         mainFrame.getContentPane().setBackground(Color.GRAY);
         mainFrame.setLayout(null);
+        mainFrame.add(menu);
         mainFrame.add(mainBoard);
+        mainBoard.setVisible(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         mainFrame.addKeyListener(new KeyAdapter());
@@ -28,25 +32,32 @@ public class View {
     public void render() {
         mapChanged = controller.model.isMapChanged();
         if(controller.isMenu()){
-            mainBoard.gameState = 1;
+            mainBoard.setVisible(false);
+            menu.setVisible(true);
+            menu.uiUpdate();
         }
 
         if(controller.isGame()){
-            mainBoard.gameState = 2;
+            menu.setVisible(false);
+            mainBoard.setVisible(true);
+            mainBoard.paused = keys[3];
             getInfo();
             getPlayerData();
+            mainBoard.repaint();
         }
 
         if(controller.isEndGame()){
-            mainBoard.gameState = 3;
+            mainBoard.setVisible(false);
+            menu.setVisible(true);
+            menu.uiUpdate();
         }
 
         if(controller.isPlayerLose()){
-            mainBoard.gameState = 4;
+            mainBoard.setVisible(false);
+            menu.setVisible(true);
+            menu.uiUpdate();
         }
-        mainBoard.paused = keys[3];
         mainFrame.repaint();
-        mainBoard.repaint();
     }
 
     private class KeyAdapter implements KeyListener {
@@ -80,12 +91,6 @@ public class View {
             if (keyValue == KeyEvent.VK_P){
                 keys[3] = !keys[3];
             }
-            if (keyValue == KeyEvent.VK_ENTER){
-                keys[4] = true;
-            }
-            if (keyValue == KeyEvent.VK_SHIFT){
-                keys[5] = true;
-            }
         }else{
             if (keyValue == KeyEvent.VK_A) {
                 keys[0] = false;
@@ -95,12 +100,6 @@ public class View {
             }
             if (keyValue == KeyEvent.VK_SPACE){
                 keys[2] = false;
-            }
-            if (keyValue == KeyEvent.VK_ENTER){
-                keys[4] = false;
-            }
-            if (keyValue == KeyEvent.VK_SHIFT){
-                keys[5] = false;
             }
         }
     }

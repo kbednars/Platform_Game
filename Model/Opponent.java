@@ -27,7 +27,7 @@ class Opponent extends GameObject {
     void oppMove() {
         gravity();
         if(collisionX){
-            x += dx;
+            x += 2*dx;
             dx = -dx;
         }
         x += dx*speed;
