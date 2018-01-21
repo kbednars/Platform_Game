@@ -6,6 +6,13 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+/**
+ * Klasa implementuje View w architekturze MVC
+ * Odpowiedzialna za: implementację słuchaczy zdarzeń użytkownika,
+ * decyzję aktualnie wyświetlanych paneli oraz za moment ich renderowanie.
+ * Posiada referencję do {@link Controller}
+ */
 public class View {
     public Controller controller;
     private MainFrame mainFrame;
@@ -29,6 +36,11 @@ public class View {
         mainFrame.addKeyListener(new KeyAdapter());
     }
 
+    /**
+     * Zależnie od aktualnego stanu gry, uaktywnia odpowiednie panele w ramce,
+     * poprzez wywoływanie metody setVisible(), a także wywołuje ich metodę renderującą
+     * dany panel.
+     */
     public void render() {
         mapChanged = controller.model.isMapChanged();
         if(controller.isMenu()){
@@ -60,6 +72,9 @@ public class View {
         mainFrame.repaint();
     }
 
+    /**
+     * Klasa implementująca słuchacza zdarzeń klawiatury.
+     */
     private class KeyAdapter implements KeyListener {
 
         @Override
@@ -76,6 +91,11 @@ public class View {
         }
     }
 
+    /**
+     * Metoda odpowiedzialna za zapisanie zdarzenia w odpowiedniej tablicy.
+     * @param e przechwycone zdarzenie
+     * @param pressed określa czy przycisk wciśnięty cz nie
+     */
     private void keyValue(KeyEvent e, boolean pressed) {
         int keyValue = e.getKeyCode();
         if (pressed){
@@ -104,18 +124,21 @@ public class View {
         }
     }
 
+    /**
+     * @return zwraca tablicę aktualnego stanu przycisków
+     */
     public boolean[] getKeys() {
         return keys;
     }
 
-    public synchronized void getInfo() {
+    public void getInfo() {
         if(mapChanged){
             mainBoard.getInfoMap(controller.model.getInfoMap());
         }
         mainBoard.getInfoObjects(controller.model.getInfoObjects());
     }
 
-    public synchronized void getPlayerData(){
+    public void getPlayerData(){
         mainBoard.playerInfo = controller.getPlayerData();
     }
 }

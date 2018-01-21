@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Klasa odpowiedzialna za reprezentację gracza.
+ */
 class Player extends GameObject{
 
     private int health;
@@ -23,6 +26,9 @@ class Player extends GameObject{
         data = new int[8];
     }
 
+    /**
+     * @return zwraca aktualny stan obiektu gracza
+     */
     int[] getData() {
         data[0] = x;
         data[1] = y;
@@ -35,6 +41,9 @@ class Player extends GameObject{
         return data;
     }
 
+    /**
+     * Odpowiada za zmianę pozycji gracza.
+     */
     void move() {
         gravity();
         if(!collisionX){
@@ -58,6 +67,10 @@ class Player extends GameObject{
         }
     }
 
+    /**
+     * Metoda odpowiedzialna, za odliczanie ochrony przeciwnika, po
+     * zderzeniu z przeciwnikiem.
+     */
     void protectionTimer(){
         if(protection > 0){
             protection -= 1;
@@ -66,6 +79,11 @@ class Player extends GameObject{
         }
     }
 
+    /**
+     * Metoda odpowiedzialna za zmianę stanu gracza, wskutek aktualnie
+     * wciśniętych przycisków.
+     * @param keys tablica reprezentująca aktualnie wciśnięte.
+     */
     void setChanges(boolean [] keys) {
         if (keys[0]) {
             dx = -1;
@@ -93,7 +111,7 @@ class Player extends GameObject{
         setY(721);
     }
 
-    void setHealth() {
+    private void setHealth() {
         if(colXop && protection == 0){
             this.health -= 1;
             protection = 180;

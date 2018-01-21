@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Klasa odpowiedzialna za tworzenie przeciwników.
+ */
 class Opponent extends GameObject {
 
     Opponent(int x, int y, int sp){
@@ -10,20 +13,14 @@ class Opponent extends GameObject {
         dx = 1;
         dy = 0;
         grav = 0.25;
-        width = 32;
+        width = 26;
         height = 20;
         data = new int[5];
     }
 
-    int[] getData() {
-        data[0] = x;
-        data[1] = y;
-        data[2] = width;
-        data[3] = height;
-        data[4] = id;
-        return data;
-    }
-
+    /**
+     * Metoda odpowiedzialna, za poruszanie przeciwnika.
+     */
     void oppMove() {
         gravity();
         if(collisionX){

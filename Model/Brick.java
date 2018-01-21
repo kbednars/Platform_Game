@@ -1,7 +1,8 @@
 package Model;
 
-import java.awt.*;
-
+/**
+ * Klasa zajmuje się tworzeniem obiektów reprezentujących platformy na mapie
+ */
 public class Brick extends GameObject{
 
     Brick(int x, int y){
@@ -11,25 +12,5 @@ public class Brick extends GameObject{
         this.x = x * width;
         this.y = 744 - (y * height);
         id = 1;
-    }
-
-    int[] getData() {
-        data[0] = x;
-        data[1] = y;
-        data[2] = width;
-        data[3] = height;
-        data[4] = id;
-        return data;
-    }
-
-    public Rectangle getRec(int i, int change) {
-        if(i == 0) {
-            rec = new Rectangle(x + change, y, width, height);
-            return rec;
-        }
-        else{
-            rec = new Rectangle(x, y + change, width, height);
-            return rec;
-        }
     }
 }

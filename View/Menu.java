@@ -8,12 +8,19 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Klasa odpowiedzialan za tworzenie panelu, na którym wyświetlane jest menu użytkownika.
+ */
 public class Menu extends JPanel{
     private View view;
     private BufferedImage startButton, menuButton, tryAgainButtton;
-    private BufferedImage imageBack;
+    private BufferedImage imageBack, title, lose, win;
     private JButton start, returnToMenu, tryAgain;
 
+    /**
+     * Konstruktor tworzy panel, przyciski oraz tworzy obiekty klasy Image.
+     * @param view {@link View}
+     */
     Menu (View view) {
         setLayout(null);
         this.view = view;
@@ -25,6 +32,9 @@ public class Menu extends JPanel{
         returnToMenu.addMouseListener(new MouseAdapter());
         tryAgain.addMouseListener(new MouseAdapter());
         try {
+            win = ImageIO.read(getClass().getResourceAsStream("/win.png"));
+            lose = ImageIO.read(getClass().getResourceAsStream("/lose.png"));
+            title = ImageIO.read(getClass().getResourceAsStream("/mrblue.png"));
             startButton = ImageIO.read(getClass().getResourceAsStream("/startButton.png"));
             menuButton = ImageIO.read(getClass().getResourceAsStream("/returnMenu.png"));
             tryAgainButtton = ImageIO.read(getClass().getResourceAsStream("/tryAgain.png"));
@@ -40,6 +50,9 @@ public class Menu extends JPanel{
         tryAgain.setBounds(417,400, tryAgain.getIcon().getIconWidth(), tryAgain.getIcon().getIconHeight());
     }
 
+    /**
+     * Zmienia aktualnie wyświetlane menu.
+     */
     void uiUpdate(){
         if(view.controller.isMenu()){
             removeAll();
@@ -66,8 +79,18 @@ public class Menu extends JPanel{
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(imageBack, null, 0, 0);
+        if(view.controller.isMenu()){
+            g2d.drawImage(title,null, 290,200);
+        }else if(view.controller.isPlayerLose()){
+            g2d.drawImage(lose,null, 270, 200);
+        }else if(view.controller.isEndGame()){
+            g2d.drawImage(win, null, 290,200);
+        }
     }
 
+    /**
+     * Klasa implementująca słuchacza zdarzeń myszki.
+     */
     class MouseAdapter implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) { }

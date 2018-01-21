@@ -3,6 +3,9 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Klasa tworzy główną ramkę aplikacji i umiejscawia ją w odpowiednim miejscu na ekranie.
+ */
 public class MainFrame extends JFrame{
 
     public MainFrame() {

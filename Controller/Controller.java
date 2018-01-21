@@ -3,12 +3,22 @@ package Controller;
 import Model.Model;
 import View.View;
 
+/**
+ * Klasa implementuje Controller w architekturze MVC
+ * Odpowiedzialna, za komunikaację pomiędzy {@link View} i {@link Model},
+ * przesyłanie, także akcji użytkownika, a także za tworzenie pętli gry.
+ */
 public class Controller {
     public Model model;
     public View view;
     private boolean paused;
-    private boolean menu, game, started, endGame , playerLose;
+    private boolean menu, game, endGame , playerLose;
 
+    /**
+     * Konstruktor otrzymuje referencję do modelu i view.
+     * @param model {@link Model}
+     * @param view {@link View}
+     */
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
@@ -17,9 +27,12 @@ public class Controller {
         menu = true;
         game = false;
         endGame = false;
-        started = false;
     }
 
+    /**
+     * Metoda pobiera tablice aktualnego stanu wcięsniętych przycisków
+     * i przekazuje ją do {@link Model} wywołując odpowiednią metodę.
+     */
     public void sendKeys() {
         if (view.getKeys()[3]) {
             paused = true;
@@ -36,6 +49,11 @@ public class Controller {
         return model.getData();
     }
 
+    /**
+     * Wątek odpowiedzialny za tworzenie pętli gry.
+     * Niezależnie aktualizowane są stany obiektów w grze od renderowania
+     * ich w GUI.
+     */
     public Thread gameLoop = new Thread(){
         public void run() {
 
@@ -76,37 +94,54 @@ public class Controller {
         }
     };
 
+    /**
+     * @return zwraca informację czy uruchomione jest menu
+     */
     public boolean isMenu() {
         return menu;
     }
 
+    /**
+     * Uruchamia lub dezaktywuje menu.
+     * @param menu
+     */
     public void setMenu(boolean menu) {
         this.menu = menu;
-        if(menu){
-
-        }
     }
 
+    /**
+     * @return zwraca informację czy uruchomiona jest gra
+     */
     public boolean isGame() {
         return game;
     }
 
+    /**
+     * Uruchamia lub dezaktywuje gre.
+     * @param game
+     */
     public void setGame(boolean game) {
-        this.game = game;
         if(game){
             menu = false;
             model.initGame();
         }
         else {
             model.endGame();
-            started = false;
         }
+        this.game = game;
     }
 
+    /**
+     * @return zwraca informację czy gra zakończona
+     */
     public boolean isEndGame() {
         return endGame;
     }
 
+    /**
+     * Pozwala na zakończenie gry.
+     * @param endGame
+     */
     public void setEndGame(boolean endGame) {
         this.endGame = endGame;
         if(!endGame){
@@ -114,10 +149,17 @@ public class Controller {
         }
     }
 
+    /**
+     * @return zwraca informację, czy gracz przegrał rozgrywkę
+     */
     public boolean isPlayerLose() {
         return playerLose;
     }
 
+    /**
+     * Ustawia informację o tym czy gracz przegrał.
+     * @param playerLose
+     */
     public void setPlayerLose(boolean playerLose) {
         this.playerLose = playerLose;
     }

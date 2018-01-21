@@ -8,6 +8,7 @@ import java.util.LinkedList;
  * Klasa implementuje Model w architekturze MVC
  * Odpowiedzialna za: przetrzymywanie informacji o istniejących obiektach,
  * inicjalizację gry oraz uaktualnianie stanu obiektów.
+ * Posiada referencję do {@link Controller}
  */
 public class Model {
     public Controller controller;
@@ -236,7 +237,6 @@ public class Model {
      * Metoda odpowiedzialna za zmianę mapy na następną.
      */
     void changeMap(){
-        mapNumber++;
         removeBricks();
         removeDoors();
         removeOpponents();

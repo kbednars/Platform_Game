@@ -2,6 +2,9 @@ package Model;
 
 import java.awt.*;
 
+/**
+ * Klasa podstawowa po, której dziedziczą wszystkie obiekty tworzone w grze.
+ */
 class GameObject {
     int id;
     int x, y, dx, dy;
@@ -13,6 +16,9 @@ class GameObject {
     Rectangle rec;
     int data[];
 
+    /**
+     * @return zwraca aktualny stan obiektu GameObject
+     */
     int[] getData() {
         data[0] = x;
         data[1] = y;
@@ -22,6 +28,9 @@ class GameObject {
         return data;
     }
 
+    /**
+     * Metoda, która odpowiada za symulowanie grawitacji.
+     */
     void gravity() {
         if (!ground) {
             jump = true;
@@ -74,6 +83,13 @@ class GameObject {
         this.dy = dy;
     }
 
+    /**
+     * Metoda pozwala na stworzenie prostokąta o wymiarach obiektu GameObject.
+     * Używana do wykrywania kolizji, gdzie korzystam z metody intersect.
+     * @param i
+     * @param change
+     * @return
+     */
     Rectangle getRec(int i, int change) {
         if (i == 0) {
             rec = new Rectangle(x + change, y, width, height);
@@ -84,6 +100,11 @@ class GameObject {
         }
     }
 
+    /**
+     * Metoda zapisuje stan aktualnych kolizji.
+     * @param X kolizja w osi X
+     * @param Y kolizja w osi Y
+     */
     void collision(boolean X, boolean Y){
         collisionX = X;
         collisionY = Y;

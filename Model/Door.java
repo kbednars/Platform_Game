@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Klasa zajmuje się tworzniem drzwi na mapie, które pozwalają
+ * na przejście do kolejnego poziomu.
+ */
 public class Door extends GameObject{
 
     Door (int x, int y){
@@ -9,13 +13,5 @@ public class Door extends GameObject{
         this.x = x * width;
         this.y = 744 - (y * height);
         id = 3;
-    }
-    int[] getData() {
-        data[0] = x;
-        data[1] = y;
-        data[2] = width;
-        data[3] = height;
-        data[4] = id;
-        return data;
     }
 }

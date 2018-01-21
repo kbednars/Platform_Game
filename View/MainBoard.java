@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 
+/**
+ * Klasa odpowiedzialna za: tworzenie panelu, na którym rysowane będą wszystkie obiekty,
+ * które znajdują się aktualnie na mapie, a także za ich renderowanie.
+ */
 public class MainBoard extends JPanel {
     boolean paused;
     int[] playerInfo;
@@ -16,6 +20,9 @@ public class MainBoard extends JPanel {
     private BufferedImage imagePlayer, imageEnemy, imageBrick, imageBack, imageHealth, imageDoor;
 
 
+    /**
+     * Konstruktor tworzy panel oraz tworzy obiekty klasy Image.
+     */
     public MainBoard() {
         playerInfo = new int[8];
         setBounds(0, 0, 1024, 768);
@@ -32,6 +39,10 @@ public class MainBoard extends JPanel {
         repaint();
     }
 
+    /**
+     * Metoda, która wywołuje się po użyciu metody repaint()
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -39,6 +50,10 @@ public class MainBoard extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
+    /**
+     * Metoda odpowiedzialna za zrenderowanie całego panelu.
+     * @param g
+     */
     private synchronized void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
