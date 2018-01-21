@@ -39,7 +39,7 @@ public class MainBoard extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    private void doDrawing(Graphics g) {
+    private synchronized void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(imageBack, null, 0, 0);
@@ -50,9 +50,11 @@ public class MainBoard extends JPanel {
                 g2d.drawImage(imageDoor, infoMap.get(i)[0], infoMap.get(i)[1], infoMap.get(i)[2], infoMap.get(i)[3], null);
             }
         }
+
         for (int i = 0; i < infoObjects.size(); i++) {
             g2d.drawImage(imageEnemy, infoObjects.get(i)[0], infoObjects.get(i)[1], infoObjects.get(i)[2], infoObjects.get(i)[3], null);
         }
+
         if ((180 > playerInfo[6] && 165 < playerInfo[6]) || ((150 > playerInfo[6]) && 135 < playerInfo[6]) || ((120 > playerInfo[6]) && 105 < playerInfo[6]) || (90 > playerInfo[6] && 75 < playerInfo[6]) || (60 > playerInfo[6] && 45 < playerInfo[6]) || (30 > playerInfo[6] && 15 < playerInfo[6]) || playerInfo[6] == 0) {
             g2d.drawImage(imagePlayer, playerInfo[0], playerInfo[1], playerInfo[2], playerInfo[3], null);
         }

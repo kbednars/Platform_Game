@@ -17,7 +17,7 @@ class Player extends GameObject{
         speed = 3;
         width = 20;
         height = 19;
-        health = 3;
+        health = 4;
         protection = 0;
         points = 0;
         data = new int[8];
@@ -36,11 +36,6 @@ class Player extends GameObject{
     }
 
     void move() {
-        if(protection > 0){
-            protection -= 1;
-        }else{
-            protection = 0;
-        }
         gravity();
         if(!collisionX){
             x += dx*speed;
@@ -58,7 +53,16 @@ class Player extends GameObject{
                 y = 768 - height;
             }else if(y < 0){
                 y = 0;
+                dy = 0;
             }
+        }
+    }
+
+    void protectionTimer(){
+        if(protection > 0){
+            protection -= 1;
+        }else{
+            protection = 0;
         }
     }
 
@@ -94,6 +98,10 @@ class Player extends GameObject{
             this.health -= 1;
             protection = 180;
         }
+    }
+
+    void addHealth(){
+        health++;
     }
 
     int getProtection() {

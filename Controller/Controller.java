@@ -7,7 +7,7 @@ public class Controller {
     public Model model;
     public View view;
     private boolean paused;
-    private boolean menu, game, endGame , playerLose;
+    private boolean menu, game, started, endGame , playerLose;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -17,6 +17,7 @@ public class Controller {
         menu = true;
         game = false;
         endGame = false;
+        started = false;
     }
 
     public void sendKeys() {
@@ -98,6 +99,7 @@ public class Controller {
         }
         else {
             model.endGame();
+            started = false;
         }
     }
 

@@ -46,19 +46,19 @@ class GameObject {
         this.jump = true;
     }
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
 
@@ -74,11 +74,7 @@ class GameObject {
         this.dy = dy;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Rectangle getRec(int i, int change) {
+    Rectangle getRec(int i, int change) {
         if (i == 0) {
             rec = new Rectangle(x + change, y, width, height);
             return rec;

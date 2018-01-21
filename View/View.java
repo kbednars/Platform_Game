@@ -108,14 +108,14 @@ public class View {
         return keys;
     }
 
-    public void getInfo() {
+    public synchronized void getInfo() {
         if(mapChanged){
             mainBoard.getInfoMap(controller.model.getInfoMap());
         }
         mainBoard.getInfoObjects(controller.model.getInfoObjects());
     }
 
-    public void getPlayerData(){
+    public synchronized void getPlayerData(){
         mainBoard.playerInfo = controller.getPlayerData();
     }
 }

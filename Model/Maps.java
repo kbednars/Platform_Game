@@ -24,7 +24,7 @@ public class Maps {
        gameBoard.createHorizontal(12,3,4);
        gameBoard.createHorizontal(8,2,4);
        gameBoard.createHorizontal(21,3,1);
-       gameBoard.createOpponent(9,4,3);
+       gameBoard.createOpponent(9,4,2);
        gameBoard.createVertical(8,3,1);
        gameBoard.createVertical(20,4,5);
        gameBoard.createVertical(23,1,6);
@@ -52,17 +52,40 @@ public class Maps {
        gameBoard.createHorizontal(1,16,2);
        //Warstwa 3
        gameBoard.createHorizontal(4,18,28);
+       gameBoard.createOpponent(7,19,2);
+       gameBoard.createOpponent(15,19,-2);
        gameBoard.createHorizontal(29,21,2);
        gameBoard.createHorizontal(31,23,2);
        gameBoard.createHorizontal(29,25,2);
+       gameBoard.createVertical(5,19,6);
+       gameBoard.createHorizontal(0, 21,1);
+       gameBoard.createHorizontal(2,23,1);
+       gameBoard.createHorizontal(6,24,10);
+       gameBoard.createHorizontal(7,25,1);
+       gameBoard.createHorizontal(15,25,1);
+       gameBoard.createOpponent(12,25,3);
+       gameBoard.createVertical(18,21,6);
+       gameBoard.createHorizontal(10,21,8);
+       gameBoard.createHorizontal(10,22,1);
+       gameBoard.createOpponent(15,22,3);
+       gameBoard.createVertical(21,19,6);
+       gameBoard.createHorizontal(19,21,1);
+       gameBoard.createVertical(24,21,6);
        //Warstwa 4
-       gameBoard.createVertical(3,28,1);
+       gameBoard.createVertical(4,28,1);
        gameBoard.createHorizontal(0,27,28);
-
-
-
+       gameBoard.createVertical(25,28,2);
+       gameBoard.createOpponent(23,28,2);
+       gameBoard.createVertical(20,28,2);
+       gameBoard.createOpponent(17,28,-2);
+       gameBoard.createVertical(15,28,2);
+       gameBoard.createOpponent(13,28,2);
+       gameBoard.createVertical(10,28,2);
+       gameBoard.createOpponent(7,28,-2);
    }
-    void Map_2(){
-        gameBoard.createHorizontal(0,0,32);
+
+   void Map_2(){
+       gameBoard.createHorizontal(0,0,32);
+
     }
 }

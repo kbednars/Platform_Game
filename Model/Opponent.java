@@ -10,7 +10,7 @@ class Opponent extends GameObject {
         dx = 1;
         dy = 0;
         grav = 0.25;
-        width = 30;
+        width = 32;
         height = 20;
         data = new int[5];
     }
